@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Transatlantic Sisterhood</title>
+  <link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Bitter:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f5ede0;
+      --coral: #e07a5f;
+      --coral-light: #e8957f;
+      --dark: #3a2e28;
+      --mid: #6b5c52;
+      --header-bg: #ede0cf;
+      --footer-bg: #2e2218;
+    }
+
+    body {
+      font-family: 'Bitter', serif;
+      background-color: var(--cream);
+      color: var(--dark);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background-color: var(--footer-bg);
+      text-align: center;
+      padding: 20px 40px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .site-title {
+      font-family: 'Young Serif', serif;
+      color: var(--coral-light);
+      font-size: 1.4rem;
+      letter-spacing: 0.06em;
+      margin-bottom: 16px;
+      font-style: normal;
+      font-weight: 400;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .site-title:hover {
+      color: var(--coral);
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+    }
+
+    nav a {
+      font-family: 'Young Serif', serif;
+      font-size: 0.95rem;
+      color: var(--coral-light);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      padding-bottom: 14px;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+      cursor: pointer;
+      opacity: 0.75;
+    }
+
+    nav a:hover, nav a.active {
+      color: var(--coral-light);
+      border-bottom-color: var(--coral-light);
+      opacity: 1;
+    }
+
+    /* ── PAGES ── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 80vh;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+      filter: grayscale(25%) sepia(15%);
+      transform: scale(1.06);
+      transition: transform 0.7s ease;
+    }
+
+    .hero:hover img {
+      transform: scale(1.0);
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(60,40,28,0.30);
+      transition: background 0.5s ease;
+    }
+
+    .hero:hover .hero-overlay {
+      background: rgba(40,25,15,0.78);
+    }
+
+    /* Title fades out on hover */
+    .hero-title {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Young Serif', serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-style: italic;
+      color: var(--coral-light);
+      line-height: 1.1;
+      text-align: center;
+      white-space: nowrap;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.25);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    .hero:hover .hero-title {
+      opacity: 0;
+      transform: translate(-50%, -40%);
+    }
+
+    /* Description fades in on hover */
+    .hero-description {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px;
+      opacity: 0;
+      transition: opacity 0.5s ease 0.15s;
+      pointer-events: none;
+    }
+
+    .hero:hover .hero-description {
+      opacity: 1;
+    }
+
+    .hero-description p {
+      font-family: 'Young Serif', serif;
+      font-size: clamp(1.1rem, 2vw, 1.55rem);
+      font-style: italic;
+      color: var(--cream);
+      text-align: center;
+      line-height: 1.85;
+      max-width: 760px;
+      text-shadow: 0 2px 14px rgba(0,0,0,0.5);
+    }
+
+    /* ── INNER PAGES (empty) ── */
+    .page-hero {
+      background-color: var(--header-bg);
+      padding: 80px 40px 72px;
+      text-align: center;
+      border-bottom: 1px solid rgba(160,120,90,0.18);
+    }
+
+    .page-hero h1 {
+      font-family: 'Young Serif', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-style: italic;
+      color: var(--coral);
+    }
+
+    /* ── IMAGE CAPTION ── */
+    .img-caption {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 16px 40px;
+      background-color: var(--cream);
+      border-top: 1px solid rgba(160,120,90,0.15);
+    }
+
+    .caption-title {
+      font-family: 'Young Serif', serif;
+      font-size: 0.82rem;
+      font-style: italic;
+      color: var(--dark);
+      letter-spacing: 0.02em;
+    }
+
+    .caption-divider {
+      color: var(--coral);
+      font-size: 0.75rem;
+      opacity: 0.6;
+    }
+
+    .caption-sub {
+      font-family: 'Bitter', serif;
+      font-size: 0.78rem;
+      color: var(--mid);
+      letter-spacing: 0.03em;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background-color: var(--footer-bg);
+      color: rgba(245,237,224,0.7);
+      padding: 32px 60px 20px;
+    }
+
+    .footer-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 40px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(245,237,224,0.1);
+    }
+
+    .footer-brand .footer-title {
+      font-family: 'Young Serif', serif;
+      font-size: 1.3rem;
+      font-style: italic;
+      color: var(--coral-light);
+      margin-bottom: 10px;
+    }
+
+    .footer-brand .footer-authors {
+      font-size: 0.85rem;
+      color: rgba(245,237,224,0.45);
+      font-style: italic;
+    }
+
+    .footer-nav h4 {
+      font-family: 'Young Serif', serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--coral-light);
+      margin-bottom: 16px;
+    }
+
+    .footer-nav ul { list-style: none; }
+    .footer-nav ul li { margin-bottom: 10px; }
+    .footer-nav ul li a {
+      font-size: 0.88rem;
+      color: rgba(245,237,224,0.6);
+      text-decoration: none;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+    .footer-nav ul li a:hover { color: var(--coral-light); }
+
+    .footer-bottom {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="site-title" onclick="goHome()">London and the United States</div>
+    <nav>
+      <a onclick="showPage('events', this)">Important Events</a>
+      <a onclick="showPage('figures', this)">Key Figures</a>
+      <a onclick="showPage('impact', this)">Impact</a>
+      <a onclick="showPage('bibliography', this)">Bibliography</a>
+    </nav>
+  </header>
+
+  <!-- HOME PAGE -->
+  <div class="page active" id="page-home">
+    <div class="hero">
+      <img src="mw84907_800x590.jpg" alt="Abolition of the Slave Trade meeting"/>
+      <div class="hero-overlay"></div>
+      <div class="hero-title">The Transatlantic<br>Sisterhood</div>
+      <div class="hero-description">
+        <p>This website explores the role of both American and British women in their combined fight for the abolition of slavery. Enjoy reading of the figures involved, their transatlantic impact and the key events which shaped their involvement in the movement…</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- IMPORTANT EVENTS PAGE -->
+  <div class="page" id="page-events">
+    <div class="page-hero"><h1>Important Events</h1></div>
+  </div>
+
+  <!-- KEY FIGURES PAGE -->
+  <div class="page" id="page-figures">
+    <div class="page-hero"><h1>Key Figures</h1></div>
+  </div>
+
+  <!-- IMPACT PAGE -->
+  <div class="page" id="page-impact">
+    <div class="page-hero"><h1>Impact</h1></div>
+  </div>
+
+  <!-- BIBLIOGRAPHY PAGE -->
+  <div class="page" id="page-bibliography">
+    <div class="page-hero"><h1>Bibliography</h1></div>
+  </div>
+
+  <!-- IMAGE CAPTION -->
+  <div class="img-caption">
+    <span class="caption-title">'The Abolition of the Slave Trade'</span>
+    <span class="caption-divider">—</span>
+    <span class="caption-sub">The Anti-Slavery Society Convention, 1840</span>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-title">The Transatlantic Sisterhood</div>
+        <div class="footer-authors">By Fran, Piti and Callum</div>
+      </div>
+      <div class="footer-nav">
+        <h4>Pages</h4>
+        <ul>
+          <li><a onclick="showPage('events', document.querySelectorAll('nav a')[0])">Important Events</a></li>
+          <li><a onclick="showPage('figures', document.querySelectorAll('nav a')[1])">Key Figures</a></li>
+          <li><a onclick="showPage('impact', document.querySelectorAll('nav a')[2])">Impact</a></li>
+          <li><a onclick="showPage('bibliography', document.querySelectorAll('nav a')[3])">Bibliography</a></li>
+        </ul>
+      </div>
+      <div class="footer-nav">
+        <h4>About</h4>
+        <ul>
+          <li><a>London and the United States</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>The Transatlantic Sisterhood — London and the United States</span>
+      <span>By Fran, Piti and Callum</span>
+    </div>
+  </footer>
+
+  <script>
+    const pageMap = {
+      'events':       'page-events',
+      'figures':      'page-figures',
+      'impact':       'page-impact',
+      'bibliography': 'page-bibliography'
+    };
+
+    function showPage(pageKey, linkEl) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(pageMap[pageKey]).classList.add('active');
+      document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+      if (linkEl) linkEl.classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    function goHome() {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-home').classList.add('active');
+      document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+      window.scrollTo(0, 0);
+    }
+  </script>
+</body>
+</html>
